@@ -1,6 +1,6 @@
-;(function ($, window, document, undefined) {
+;(function ($) {
 
-    var direction = {
+    const direction = {
         left: 0,
         right: 1
     };
@@ -14,6 +14,8 @@
     function init(jq) {
         initLayout(jq);
         initClick(jq);
+        initPlay(jq);
+
     }
 
     /**
@@ -21,15 +23,15 @@
      * @param jq
      */
     function initLayout(jq) {
-        var p = jq.parent();
-        var width = p.width();
-        var height = p.height();
+        let p = jq.parent();
+        let width = p.width();
+        let height = p.height();
         jq.css({
             'width': width + 'px',
             'height': height + 'px'
         });
-        var content = jq.children('.km-carousel-content').eq(0);
-        var len = content.children('.km-carousel-item').length;
+        let content = jq.children('.km-carousel-content').eq(0);
+        let len = content.children('.km-carousel-item').length;
         content.css({
             'width': width * (len + 2) + 'px',
             'height': height + 'px'
@@ -43,8 +45,8 @@
         });
 
         if (len >= 2) {
-            var f = content.children('.km-carousel-item').first().clone();
-            var l = content.children('.km-carousel-item').last().clone();
+            let f = content.children('.km-carousel-item').first().clone();
+            let l = content.children('.km-carousel-item').last().clone();
             content.append(f.get(0));
             content.prepend(l.get(0));
         }
@@ -54,7 +56,11 @@
 
 
         initChange(jq, len, width);
-        initBtn(jq, width);
+
+        if( jq.config.showBtn ){
+            initBtn(jq, width);
+        }
+
         jq.config.currIndex = 0;
     }
 
@@ -66,15 +72,15 @@
      * @param width 宽度
      */
     function initChange(jq, len, width) {
-        var div = $('<div>')
+        let div = $('<div>')
             .attr('class', 'km-carousel-change-box');
         div.css({
             'width': width + 'px'
         });
-        var ul = $('<ul>')
+        let ul = $('<ul>')
             .attr('class', 'km-carousel-change');
-        for (var i = 0; i < len; i++) {
-            var li = $('<li>');
+        for (let i = 0; i < len; i++) {
+            let li = $('<li>');
             li.append(
                 $('<a>')
                     .attr('href', 'javascript:void(0);')
@@ -95,7 +101,7 @@
      * @param width 宽度
      */
     function initBtn(jq, width) {
-        var div = $('<div>')
+        let div = $('<div>')
             .attr('class', 'km-carousel-btn-box')
             .css({
                 'width': width + 'px'
@@ -120,14 +126,14 @@
      * @param jq jq
      */
     function initClick(jq) {
-        var content = jq.children('.km-carousel-content').eq(0);
-        var len = content.children('.km-carousel-item').length - 2;
+
+
         // 切换按钮
         jq.children('.km-carousel-change-box')
             .children('.km-carousel-change')
             .children('li')
             .each(function (index) {
-                var item = $(this);
+                let item = $(this);
                 item.on('click', function () {
                     if (index !== jq.config.currIndex) {
                         moveItemByChange(jq, index);
@@ -149,16 +155,35 @@
             });
     }
 
+    function initPlay(jq) {
+        jq.mouseenter(function () {
+            console.log('enter');
+            jq.config.startPlay = false;
+        }).mouseleave(function () {
+            console.log('leave');
+            jq.config.startPlay = true;
+        });
+        if( jq.config.autoPlay ){
+            setInterval(function () {
+                if( jq.config.startPlay){
+                    moveItemByChange(jq, jq.config.currIndex + 1)
+                }
+            },2000);
+
+
+        }
+    }
+
     /**
      * 切换
      * @param jq jq
      * @param index 第几个
      */
     function moveItemByChange(jq, index) {
-        var p = jq.parent();
-        var width = p.width();
-        var content = jq.children('.km-carousel-content').eq(0);
-        var len = content.children('.km-carousel-item').length - 2;
+        let p = jq.parent();
+        let width = p.width();
+        let content = jq.children('.km-carousel-content').eq(0);
+        let len = content.children('.km-carousel-item').length - 2;
 
         if (index < 0) {
             content.animate({
@@ -195,7 +220,7 @@
             },0);
             return;
         }
-        var arr = getDistanceArray(len, width);
+        let arr = getDistanceArray(len, width);
 
         jq.children('.km-carousel-change-box')
             .children('.km-carousel-change')
@@ -234,8 +259,8 @@
      * @returns {Array}
      */
     function getDistanceArray(len, width) {
-        var arr = [];
-        for (var i = 0; i < len; i++) {
+        let arr = [];
+        for (let i = 0; i < len; i++) {
             arr[i] = (i + 1) * width * -1;
         }
         return arr;
@@ -255,8 +280,8 @@
         }
 
         // 获得配置，这里为了得到用户的配置项，覆盖默认配置项，并保存到当前jquery插件实例中
-        var _opts = $.extend({}, $.fn.kmCarousel.defaults, options);
-        var jq = this;
+        let _opts = $.extend({}, $.fn.kmCarousel.defaults, options);
+        let jq = this;
         jq.config = _opts;
 
         // 链式调用
@@ -282,5 +307,9 @@
     /**
      * 插件的默认配置
      */
-    $.fn.kmCarousel.defaults = {};
+    $.fn.kmCarousel.defaults = {
+        autoPlay : true,
+        startPlay : true,
+        showBtn : true
+    };
 })(jQuery, window, document);

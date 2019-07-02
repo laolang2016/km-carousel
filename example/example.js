@@ -1,6 +1,8 @@
 $(function () {
     console.log('km pager');
-    $('#carousel-one').kmCarousel();
+    $('#carousel-one').kmCarousel({
+        showBtn:false
+    });
 
 
 });
