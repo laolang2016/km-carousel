@@ -1,0 +1,128 @@
+@mixin clearfix{
+  &:before,
+  &:after{
+    content: " ";
+    display: table;
+  }
+
+  &:after{
+    display: block;
+    clear: both;
+    height: 1px;
+    margin-top: -1px;
+    visibility: hidden;
+  }
+  &{
+    *zoom: 1;
+  }
+}
+
+.km-carousel-wrapper{
+  box-sizing: border-box;
+  @include clearfix;
+
+  position: relative;
+  //height: 300px;
+  //width: 400px;
+  overflow: hidden;
+
+  .km-carousel-content{
+    position: absolute;
+    //left: -400px;
+    //width: 1600px;
+    //height: 300px;
+
+    .km-carousel-item{
+      float: left;
+      //width: 400px;
+      //height: 300px;
+
+    }
+  }
+
+  .km-carousel-change-box{
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //width: 400px;
+    .km-carousel-change{
+      @include clearfix;
+      padding: 5px;
+      background-color: rgba(0,0,0,.2);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+
+      li{
+        display: inline-block;
+        height: 15px;
+        list-style: none;
+        float: left;
+        margin-right: 15px;
+        &:last-child{
+          margin-right: 0;
+        }
+
+        &:hover,&.active{
+          a{
+            background-color: #00b5e5;
+            border-color: #00b5e5;
+          }
+        }
+
+        a{
+          display: inline-block;
+          text-align: center;
+          text-decoration: none;
+          width: 15px;
+          height: 15px;
+          border: 1px solid #333;
+          border-radius: 50%;
+          background-color: #fff;
+
+        }
+      }
+    }
+  }
+
+  .km-carousel-btn-box{
+    //width: 400px;
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    height: 36px;
+    display: flex;
+    justify-content: space-between;
+
+
+    .km-carousel-btn{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,.2);
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+
+      &.left{
+        margin-left: 25px;
+      }
+
+      &.right{
+        margin-right: 25px;
+      }
+
+      &:hover{
+        background-color: rgba(0,0,0,.35);
+      }
+    }
+
+  }
+
+
+
+}
