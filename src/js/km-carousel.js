@@ -23,24 +23,23 @@
      * @param jq
      */
     function initLayout(jq) {
-        let p = jq.parent();
-        let width = p.width();
-        let height = p.height();
+
+        const area = getWidthAndHeight(jq);
         jq.css({
-            'width': width + 'px',
-            'height': height + 'px'
+            'width': area.width + 'px',
+            'height': area.height + 'px'
         });
         let content = jq.children('.km-carousel-content').eq(0);
         let len = content.children('.km-carousel-item').length;
         content.css({
-            'width': width * (len + 2) + 'px',
-            'height': height + 'px'
+            'width': area.width * (len + 2) + 'px',
+            'height': area.height + 'px'
         });
 
         content.children('.km-carousel-item').each(function () {
             $(this).css({
-                'width': width + 'px',
-                'height': height + 'px'
+                'width': area.width + 'px',
+                'height': area.height + 'px'
             });
         });
 
@@ -51,14 +50,14 @@
             content.prepend(l.get(0));
         }
         content.css({
-            left: -1 * width + 'px'
+            left: -1 * area.width + 'px'
         });
 
 
-        initChange(jq, len, width);
+        initChange(jq, len, area.width);
 
         if( jq.config.showBtn ){
-            initBtn(jq, width);
+            initBtn(jq, area.width);
         }
 
         jq.config.currIndex = 0;
@@ -126,8 +125,6 @@
      * @param jq jq
      */
     function initClick(jq) {
-
-
         // 切换按钮
         jq.children('.km-carousel-change-box')
             .children('.km-carousel-change')
@@ -155,12 +152,16 @@
             });
     }
 
+    /**
+     * 初始化自动播放
+     * @param jq jq
+     */
     function initPlay(jq) {
         jq.mouseenter(function () {
-            console.log('enter');
+            // 鼠标进入时停止
             jq.config.startPlay = false;
         }).mouseleave(function () {
-            console.log('leave');
+            // 鼠标移开是播放
             jq.config.startPlay = true;
         });
         if( jq.config.autoPlay ){
@@ -180,8 +181,7 @@
      * @param index 第几个
      */
     function moveItemByChange(jq, index) {
-        let p = jq.parent();
-        let width = p.width();
+        const area = getWidthAndHeight(jq);
         let content = jq.children('.km-carousel-content').eq(0);
         let len = content.children('.km-carousel-item').length - 2;
 
@@ -190,45 +190,28 @@
                 left: '0px'
             }, 300);
             jq.config.currIndex = len - 1;
-            jq.children('.km-carousel-change-box')
-                .children('.km-carousel-change')
-                .children('li')
-                .eq(len - 1)
-                .addClass('active')
-                .siblings()
-                .removeClass('active');
+            changeBtnSelect(jq,jq.config.currIndex);
             content.animate({
-                left: width * len * -1 + 'px'
+                left: area.width * len * -1 + 'px'
             },0);
             return;
         }
 
         if (index >= len) {
             content.animate({
-                left: width * (len + 1) * -1 + 'px'
+                left: area.width * (len + 1) * -1 + 'px'
             }, 300);
             jq.config.currIndex = 0;
-            jq.children('.km-carousel-change-box')
-                .children('.km-carousel-change')
-                .children('li')
-                .eq(0)
-                .addClass('active')
-                .siblings()
-                .removeClass('active');
+            changeBtnSelect(jq,jq.config.currIndex);
+
             content.animate({
-                left: width * -1 + 'px'
+                left: area.width * -1 + 'px'
             },0);
             return;
         }
-        let arr = getDistanceArray(len, width);
+        let arr = getDistanceArray(len, area.width);
 
-        jq.children('.km-carousel-change-box')
-            .children('.km-carousel-change')
-            .children('li')
-            .eq(index)
-            .addClass('active')
-            .siblings()
-            .removeClass('active');
+        changeBtnSelect(jq,index);
 
 
         content.animate({
@@ -264,6 +247,36 @@
             arr[i] = (i + 1) * width * -1;
         }
         return arr;
+    }
+
+    /**
+     * 获取宽度和高度
+     * @param jq jq
+     * @returns {{width: *, height: *}}
+     */
+    function getWidthAndHeight(jq){
+        let p = jq.parent();
+        let width = p.width();
+        let height = p.height();
+        return {
+            width : width,
+            height : height
+        };
+    }
+
+    /**
+     * 选中切换按钮
+     * @param jq
+     * @param index
+     */
+    function changeBtnSelect(jq,index){
+        jq.children('.km-carousel-change-box')
+            .children('.km-carousel-change')
+            .children('li')
+            .eq(index)
+            .addClass('active')
+            .siblings()
+            .removeClass('active');
     }
 
 

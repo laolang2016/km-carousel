@@ -1,7 +1,7 @@
 $(function () {
     console.log('km pager');
     $('#carousel-one').kmCarousel({
-        showBtn:false
+        showBtn:true
     });
 
 
