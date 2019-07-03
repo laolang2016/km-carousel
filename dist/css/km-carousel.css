@@ -1,0 +1,135 @@
+.km-carousel-wrapper {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.km-carousel-wrapper:before, .km-carousel-wrapper:after {
+  content: " ";
+  display: table;
+}
+
+.km-carousel-wrapper:after {
+  display: block;
+  clear: both;
+  height: 1px;
+  margin-top: -1px;
+  visibility: hidden;
+}
+
+.km-carousel-wrapper {
+  *zoom: 1;
+}
+
+.km-carousel-wrapper .km-carousel-content {
+  position: absolute;
+}
+
+.km-carousel-wrapper .km-carousel-content .km-carousel-item {
+  float: left;
+}
+
+.km-carousel-wrapper .km-carousel-change-box {
+  position: absolute;
+  bottom: 20px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change {
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+  height: 25px;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change:before, .km-carousel-wrapper .km-carousel-change-box .km-carousel-change:after {
+  content: " ";
+  display: table;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change:after {
+  display: block;
+  clear: both;
+  height: 1px;
+  margin-top: -1px;
+  visibility: hidden;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change {
+  *zoom: 1;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change li {
+  display: inline-block;
+  height: 15px;
+  list-style: none;
+  float: left;
+  margin-right: 15px;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change li:last-child {
+  margin-right: 0;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change li:hover a, .km-carousel-wrapper .km-carousel-change-box .km-carousel-change li.active a {
+  background-color: #00b5e5;
+  border-color: #00b5e5;
+}
+
+.km-carousel-wrapper .km-carousel-change-box .km-carousel-change li a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #333;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.km-carousel-wrapper .km-carousel-btn-box {
+  position: absolute;
+  top: 50%;
+  margin-top: -18px;
+  height: 36px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.km-carousel-wrapper .km-carousel-btn-box .km-carousel-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.km-carousel-wrapper .km-carousel-btn-box .km-carousel-btn.left {
+  margin-left: 25px;
+}
+
+.km-carousel-wrapper .km-carousel-btn-box .km-carousel-btn.right {
+  margin-right: 25px;
+}
+
+.km-carousel-wrapper .km-carousel-btn-box .km-carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+/*# sourceMappingURL=km-carousel.css.map */
